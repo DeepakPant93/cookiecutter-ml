@@ -98,7 +98,7 @@ Create a new tag in the format `*.*.*`, where `*` represents alphanumeric charac
 
 ## Step 10: Enable Documentation
 
-To enable documentation with **MkDocs** on GitHub Pages, navigate to your repository's **Settings** > **Code and Automation** > **Pages**. Once the release is published, you should see a notification saying, *Your site is ready to be published at https://<author_github_handle>.github.io/<project_name>/*.
+To enable documentation with **MkDocs** on GitHub Pages, navigate to your repository's **Settings** > **Code and Automation** > **Pages**. Once the release is published, you should see a notification saying, _Your site is ready to be published at https://<author_github_handle>.github.io/<project_name>/_.
 
 Under **Source**, select the `gh-pages` branch.
 
