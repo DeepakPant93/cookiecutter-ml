@@ -74,6 +74,14 @@ DEP002 = ["cookiecutter"]
 target-version = "py37"
 line-length = 120
 fix = true
+ignore = [
+    # LineTooLong
+    "E501",
+    # DoNotAssignLambda
+    "E731",
+    # Possible binding to all interfaces - Require for Docker container
+    "S104"
+]
 
 [tool.ruff.lint]
 select = [
@@ -113,6 +121,7 @@ ignore = [
     "E501",
     # DoNotAssignLambda
     "E731",
+    
 ]
 
 [tool.ruff.lint.per-file-ignores]
