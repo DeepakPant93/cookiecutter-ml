@@ -1,10 +1,12 @@
 name: Build and Deploy Docker Image
 
 on:
-    workflow_dispatch: {}
-    release:
-        types: [published]
-        branches: [main]
+  workflow_dispatch: {}
+  release:
+      types: [published]
+      branches: [main]
+  repository_dispatch:
+      types: [package-release]
 
 env:
     DOCKER_IMAGE: {{cookiecutter.dockerhub_username}}/{{cookiecutter.project_slug}} # Replace with your DockerHub image
@@ -26,7 +28,7 @@ jobs:
               run: echo $DOCKER_PWD | docker login -u $DOCKER_USER --password-stdin
 
             - name: Build and Push Docker Image
-              run: {% raw %}make docker-build-and-push IMAGE=${{ env.DOCKER_IMAGE }} TAG=${{ github.sha }}{% endraw %}
+              run: {% raw %}make bake-container-and-push IMAGE=${{ env.DOCKER_IMAGE }} TAG=${{ github.sha }}{% endraw %}
 
             - name: Clean up Docker system
               run: docker system prune -f

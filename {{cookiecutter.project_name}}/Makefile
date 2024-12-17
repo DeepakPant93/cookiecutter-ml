@@ -14,6 +14,7 @@ APP_ENV_NAME = $(APP_NAME)-env
 DATASOURCE_ID = {{cookiecutter.data_source_id}}
 GCLOUD_PROJECT_ID = $(shell gcloud config get-value project)
 SERVICE_ACCOUNT_NAME = $(PROJECT_NAME)-dvcsa
+BUMP_TYPE = patch
 
 # =============================
 # Help (Default Target)
@@ -28,13 +29,13 @@ help: ## Display this help message
 # Installation and Setup
 # =============================
 .PHONY: bake-env
-bake-env: ## Install the poetry environment and set up pre-commit hooks
+bake-env: clean-env ## Install the poetry environment and set up pre-commit hooks
 	@echo "🚀 Creating virtual environment using pyenv and poetry"
 	@poetry install
 	@poetry run pip install --upgrade dvc dvc-gdrive pydrive2 pyOpenSSL
 	@poetry run pre-commit install || true
 	@max_retries=3; count=0; \
-	while ! make check; do \
+	while ! make lint; do \
 		count=$$((count + 1)); \
 		if [ $$count -ge $$max_retries ]; then \
 			echo "Max retries reached. Exiting."; \
@@ -191,13 +192,18 @@ test: ## Run tests with pytest
 # Build and Release
 # =============================
 .PHONY: bake
-bake: clean-build ## Build wheel file using poetry
+bake: clean-bake ## Build wheel file using poetry
 	@echo "🚀 Creating wheel file"
 	@poetry build
 
 .PHONY: clean-bake
 clean-bake: ## Clean build artifacts
 	@rm -rf dist
+
+.PHONY: bump
+bump: ## Bump project version
+	@echo "🚀 Bumping version"
+	@poetry run bump-my-version bump $(BUMP_TYPE)
 
 .PHONY: publish
 publish: ## Publish a release to PyPI
@@ -208,7 +214,7 @@ publish: ## Publish a release to PyPI
 	@poetry publish
 
 .PHONY: bake-and-publish
-bake-and-publish: clean-bake publish ## Build and publish to PyPI
+bake-and-publish: bake publish ## Build and publish to PyPI
 
 .PHONY: update
 update: ## Update project dependencies
@@ -247,7 +253,7 @@ container-push: ## Push Docker image to Docker Hub
 	docker push $(IMAGE_NAME):$(TAG)
 
 .PHONY: bake-container-and-push
-bake-container-and-push: docker-build docker-push ## Build and push Docker image to Docker Hub
+bake-container-and-push: bake-container container-push ## Build and push Docker image to Docker Hub
 
 .PHONY: clean-container
 clean-container: ## Clean up Docker resources related to the app

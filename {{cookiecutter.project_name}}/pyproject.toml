@@ -34,7 +34,6 @@ fastapi-health = "^0.4.0"  # Health check for FastAPI
 #scipy = "^1.11.3"  # Scientific computation
 
 
-
 [tool.poetry.group.dev.dependencies]
 deptry = "^0.16.2"  # For dependency management
 mypy = "^1.5.1"  # Static type checking
@@ -43,7 +42,7 @@ tox = "^4.11.1"  # Testing in multiple environments
 ipykernel = "^6.25.0"  # Jupyter kernel
 black = "^23.9.0"  # Code formatter
 build = "^1.0.0"  # Build management
-bump-my-version = "^0.28.1"  # Bump versions automatically
+bump-my-version = "^0.28.2"  # Bump versions automatically
 codespell = "^2.2.5"  # Spell checking in code
 wheel = "^0.41.0"  # Build wheels
 twine = "^4.0.0"  # Publish packages
@@ -193,17 +192,17 @@ omit = [
 "tests/*" = ["S101"]
 
 [tool.bumpversion]
-current_version = "0.0.2"
+current_version = "0.0.1"
 commit = true
 tag = true
 
 [[tool.bumpversion.files]]
-filename = "pyproject.toml"
+glob = "pyproject.toml"
 search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
 
 [[tool.bumpversion.files]]
-filename = "{{cookiecutter.project_slug}}/__init__.py"
+glob = "{{cookiecutter.project_slug}}/main.py"
 search = '__version__ = "{current_version}"'
 replace = '__version__ = "{new_version}"'
 
