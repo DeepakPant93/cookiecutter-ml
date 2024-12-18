@@ -1,4 +1,20 @@
 # =============================
+# Variable Documentation
+# =============================
+# DATA_SOURCE_ID: Google Drive folder ID for DVC remote storage
+# Usage: make bake-dvc DATA_SOURCE_ID=your_folder_id
+
+# PYPI_TOKEN: Authentication token for PyPI publishing
+# Usage: make publish PYPI_TOKEN=your_pypi_token
+
+# DATA_FILENAME: Name of the data file to be tracked by DVC
+# Usage: make dvc-add-data DATA_FILENAME=your_data_file.csv
+
+# PACKAGE_NAME: Name of the Python package for dependency tree
+# Usage: make print-dependency-tree PACKAGE_NAME=your_package_name
+
+
+# =============================
 # Project Configuration
 # =============================
 PROJECT_NAME = {{cookiecutter.project_name}}
@@ -11,7 +27,6 @@ IMAGE_NAME = {{cookiecutter.dockerhub_username}}/$(PROJECT_SLUG)
 RESOURCE_GROUP = $(PROJECT_NAME)-rg
 APP_NAME = $(PROJECT_NAME)-app
 APP_ENV_NAME = $(APP_NAME)-env
-DATASOURCE_ID = {{cookiecutter.data_source_id}}
 GCLOUD_PROJECT_ID = $(shell gcloud config get-value project)
 SERVICE_ACCOUNT_NAME = $(PROJECT_NAME)-dvcsa
 BUMP_TYPE = patch
@@ -105,11 +120,16 @@ clean-cloud-env: ## Delete resource group, container app environment, and servic
 
 .PHONY: bake-dvc
 bake-dvc: ## Initialize DVC and set up service account
+	@if [ -z "$(DATA_SOURCE_ID)" ]; then \
+		echo "Error: DATA_SOURCE_ID is required. Please pass it using 'make bake-dvc DATA_SOURCE_ID=<your-data-source-id>'"; \
+		exit 1; \
+	fi
+
 	@echo "Initializing the DVC"
 	@poetry run dvc init -f
 
 	@echo "Adding remote connection to the Gdrive"
-	@poetry run dvc remote add -d gdrive_remote gdrive://$(FOLDER_ID)
+	@poetry run dvc remote add -d gdrive_remote gdrive://$(DATASOURCE_ID)
 	@poetry run dvc remote modify gdrive_remote gdrive_use_service_account true
 
 	@echo "Enabling Google Drive API"

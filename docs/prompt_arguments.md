@@ -45,10 +45,6 @@ Set this to `"y"` or `"n"`. If enabled, a `.github` directory will be created wi
 Specifies the type of data source for your project. Options:
 `["1. Google Drive"]`
 
-#### **data_source_id**
-
-The identifier for your data source, such as a folder ID or bucket name, where data is stored for model training.
-
 #### **app_host_port**
 
 The port on which the application will run. Defaults to `80`.
