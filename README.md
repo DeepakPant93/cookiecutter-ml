@@ -46,11 +46,7 @@ Create a new repository on GitHub, then run the following commands in your termi
 
 ```bash
 cd <project_name>
-git init -b main
-git add .
-git commit -m "Initial commit"
-git remote add origin git@github.com:<github_author_handle>/<project_name>.git
-git push -u origin main
+make init-repo
 ```
 
 ### Step 3: Install the Environment and Pre-commit Hooks

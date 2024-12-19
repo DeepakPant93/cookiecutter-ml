@@ -10,11 +10,7 @@
 First, create a repository on GitHub with the same name as this project, and then run the following commands:
 
 ```bash
-git init -b main
-git add .
-git commit -m "init commit"
-git remote add origin git@github.com:{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
-git push -u origin main
+make init-repo
 ```
 
 Finally, install the environment and the pre-commit hooks with

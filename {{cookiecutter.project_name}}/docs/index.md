@@ -38,29 +38,23 @@ This repository contains a sample Data Science application built with FastAPI, d
 
 ## Installation
 
-1. Clone the repository:
+1. Initialize the repository if it's your first time:
 
     ```bash
-    git clone https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
     cd {{cookiecutter.project_name}}
+    make init-repo
     ```
 
 2. Install dependencies using Poetry:
 
     ```bash
-    poetry install
+    make bake-env
     ```
 
-3. Activate the virtual environment:
+3. Run the FastAPI server:
 
     ```bash
-    poetry shell
-    ```
-
-4. Run the FastAPI server:
-
-    ```bash
-    uvicorn src.main:app --reload
+    make run
     ```
 
 ---
